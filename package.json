@@ -1,0 +1,32 @@
+{
+  "scripts": {
+    "dev": "bun --watch src/index.ts",
+    "deploy:dev": "bunx tsc && bun --env-file=.env.dev sst deploy --stage=dev",
+    "prepare": "bunx simple-git-hooks"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "serverless-http": "^3.2.0"
+  },
+  "devDependencies": {
+    "@commitlint/config-conventional": "^19.5.0",
+    "@ianvs/prettier-plugin-sort-imports": "^4.3.1",
+    "prettier": "^3.3.3",
+    "sst": "^3.1.30",
+    "zod": "^3.23.8"
+  },
+  "simple-git-hooks": {
+    "commit-msg": "bunx commitlint --edit $1",
+    "pre-commit": "bunx lint-staged --verbose"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "*": [
+      "prettier --write --ignore-unknown"
+    ]
+  }
+}
