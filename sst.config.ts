@@ -24,10 +24,11 @@ export default $config({
       })
       .parse(process.env)
 
-    const api = new sst.aws.ApiGatewayV2("html-scraper")
-
-    api.route("GET /", {
-      handler: "dist/index.handler",
+    new sst.aws.Function("html-scraper", {
+      handler: "src/index.handler",
+      memory: "512 MB",
+      runtime: "nodejs20.x",
+      url: true,
       environment: {
         API_KEY: schema.API_KEY,
       },
