@@ -53,7 +53,7 @@ app.get("/", async (req, res) => {
   const start = performance.now()
 
   try {
-    const { search } = req.query
+    const { search } = req.query as { search?: string }
 
     if (!search) {
       return res.status(400).send("Please provide a search query!")
@@ -77,8 +77,8 @@ app.get("/", async (req, res) => {
 })
 
 if (process.env.TYPE === "dev") {
-  const PORT = process.env.PORT || 5555
-  app.listen(PORT, console.log("App listening on port", PORT || 5555))
+  const PORT = 5555
+  app.listen(PORT, () => console.log("App listening on port", PORT))
 }
 
 export const handler = serverless(app)

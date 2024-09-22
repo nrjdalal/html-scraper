@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "bun --watch src/index.ts",
+    "dev": "TYPE=dev bun --watch src/index.ts",
     "deploy:dev": "bun --env-file=.env.dev sst deploy --stage=dev",
     "prepare": "bunx simple-git-hooks"
   },
