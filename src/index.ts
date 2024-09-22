@@ -50,7 +50,10 @@ app.get("/switch", async (req, res) => {
   const response = await fetch("https://api.apify.com/v2/browser-info")
   const data = await response.json()
 
-  res.json({ ...data, time: (performance.now() - start).toFixed(0) })
+  res.json({
+    ...(data as object),
+    time: (performance.now() - start).toFixed(0),
+  })
 })
 
 app.get("/", async (req, res) => {
