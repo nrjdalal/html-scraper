@@ -4,6 +4,14 @@ import serverless from "serverless-http"
 
 const app = express()
 
+app.use((req, res, next) => {
+  if (!req.query.key || req.query.key !== process.env.API_KEY) {
+    return res.status(401).send("Unauthorized!")
+  }
+
+  next()
+})
+
 app.get("/switch", async (req, res) => {
   const start = performance.now()
 
@@ -45,11 +53,7 @@ app.get("/", async (req, res) => {
   const start = performance.now()
 
   try {
-    const { search, key } = req.query
-
-    if (!key || key !== process.env.API_KEY) {
-      return res.status(401).send("Unauthorized!")
-    }
+    const { search } = req.query
 
     if (!search) {
       return res.status(400).send("Please provide a search query!")

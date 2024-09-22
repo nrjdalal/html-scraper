@@ -15,6 +15,7 @@
     "@ianvs/prettier-plugin-sort-imports": "^4.3.1",
     "@pulumi/pulumi": "^3.133.0",
     "@types/bun": "^1.1.10",
+    "@types/express": "^4.17.21",
     "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
     "simple-git-hooks": "^2.11.1",
