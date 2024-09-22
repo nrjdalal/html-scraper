@@ -22,8 +22,8 @@ app.get("/switch", async (req, res) => {
   const lambdaClient = new AWS.LambdaClient({
     region: process.env.FUNCTION_REGION,
     credentials: {
-      accessKeyId: process.env.ACCESS_KEY_ID,
-      secretAccessKey: process.env.SECRET_ACCESS_KEY,
+      accessKeyId: process.env.ACCESS_KEY_ID || "",
+      secretAccessKey: process.env.SECRET_ACCESS_KEY || "",
     },
   })
 
@@ -39,7 +39,7 @@ app.get("/switch", async (req, res) => {
       Environment: {
         Variables: {
           RUN: `${Math.random()}`,
-          ...existingConfig.Environment.Variables,
+          ...(existingConfig.Environment?.Variables ?? {}),
         },
       },
     }),

@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "scripts": {
     "dev": "TYPE=dev bun --watch src/index.ts",
     "deploy:dev": "bun --env-file=.env.dev sst deploy --stage=dev",

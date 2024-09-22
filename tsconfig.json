@@ -1,9 +1,26 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "NodeNext",
+    // base options
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "ES2022",
+    "verbatimModuleSyntax": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+
+    // strict options
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+
+    // module options
     "moduleResolution": "NodeNext",
-    "outDir": "dist"
+    "module": "NodeNext",
+    "outDir": "dist",
+    "sourceMap": true,
+
+    // lib options
+    "lib": ["ES2022"]
   },
   "include": ["src/**/*"]
 }
