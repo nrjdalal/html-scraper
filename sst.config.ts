@@ -1,5 +1,6 @@
 /// <reference path="./.sst/platform/config.d.ts" />
 
+import pulumi from "@pulumi/pulumi"
 import z from "zod"
 
 export default $config({
@@ -35,7 +36,7 @@ export default $config({
     })
 
     return {
-      URL: lambda.url,
+      URL: pulumi.interpolate`${lambda.url}?key=${schema.API_KEY}&search=https://api.apify.com/v2/browser-info`,
     }
   },
 })
