@@ -8,7 +8,7 @@ app.get("/switch", async (req, res) => {
   const start = performance.now()
 
   const lambdaClient = new AWS.LambdaClient({
-    region: "ap-south-1",
+    region: process.env.FUNCTION_REGION,
     credentials: {
       accessKeyId: process.env.ACCESS_KEY_ID,
       secretAccessKey: process.env.SECRET_ACCESS_KEY,
