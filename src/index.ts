@@ -5,14 +5,18 @@ import serverless from "serverless-http"
 const app = express()
 
 app.use((req, res, next) => {
+  if (process.env.TYPE === "dev") return next()
+
   if (!req.query.key || req.query.key !== process.env.API_KEY) {
     return res.status(401).send("Unauthorized!")
   }
 
-  next()
+  return next()
 })
 
 app.get("/switch", async (req, res) => {
+  if (process.env.TYPE === "dev") return res.send("Not available in dev mode!")
+
   const start = performance.now()
 
   const lambdaClient = new AWS.LambdaClient({
@@ -78,7 +82,9 @@ app.get("/", async (req, res) => {
 
 if (process.env.TYPE === "dev") {
   const PORT = 5555
-  app.listen(PORT, () => console.log("App listening on port", PORT))
+  app.listen(PORT, () =>
+    console.log(`Server running on http://localhost:${PORT}`),
+  )
 }
 
 export const handler = serverless(app)
