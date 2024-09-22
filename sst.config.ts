@@ -24,7 +24,7 @@ export default $config({
       })
       .parse(process.env)
 
-    new sst.aws.Function("html-scraper", {
+    const lambda = new sst.aws.Function("html-scraper", {
       handler: "src/index.handler",
       memory: "512 MB",
       runtime: "nodejs20.x",
@@ -33,5 +33,9 @@ export default $config({
         API_KEY: schema.API_KEY,
       },
     })
+
+    return {
+      URL: lambda.url,
+    }
   },
 })
