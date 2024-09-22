@@ -21,6 +21,5 @@
 
     // lib options
     "lib": ["ES2022"]
-  },
-  "include": ["src/**/*"]
+  }
 }
