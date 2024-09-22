@@ -2,7 +2,7 @@
   "type": "module",
   "scripts": {
     "dev": "TYPE=dev bun --watch src/index.ts",
-    "deploy:dev": "bun --env-file=.env.dev sst deploy --stage=dev",
+    "deploy:dev": "bunx tsc && bun --env-file=.env.dev sst deploy --stage=dev",
     "prepare": "bunx simple-git-hooks"
   },
   "dependencies": {

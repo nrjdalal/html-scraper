@@ -3,4 +3,5 @@
 .sst
 bun.lockb
 sst-env.d.ts
+dist/
 node_modules/

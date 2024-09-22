@@ -26,7 +26,7 @@ export default $config({
     const apSouth1 = new sst.aws.Function(
       "html-scraper",
       {
-        handler: "src/index.handler",
+        handler: "dist/index.handler",
         memory: "512 MB",
         runtime: "nodejs20.x",
         url: true,
