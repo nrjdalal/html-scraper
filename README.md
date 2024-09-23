@@ -13,5 +13,5 @@ bun i && bun run dev
 > Make sure to configure `.aws/credentials` file with your AWS credentials
 
 ```bash
-bun i && bun deploy:dev
+bun i && bun run deploy:dev
 ```
