@@ -10,5 +10,8 @@ bun i && bun run dev
 
 #### For Deployment
 
-1. Rename `.env.example` to `.env.dev`
-2. Run `bun i && bun run deploy:dev`
+> Make sure to configure `.aws/credentials` file with your AWS credentials
+
+```bash
+bun i && bun deploy:dev
+```
