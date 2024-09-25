@@ -1,6 +1,6 @@
 # HTML Scraper
 
-### How to use
+### How to get started?
 
 #### In Development
 
