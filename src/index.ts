@@ -4,6 +4,8 @@ import serverless from "serverless-http"
 
 const app = express()
 
+// TODO: integrate got-scraping
+
 app.use((req, res, next) => {
   if (process.env.TYPE === "dev") return next()
 
