@@ -26,7 +26,7 @@
   },
   "simple-git-hooks": {
     "commit-msg": "bunx commitlint --edit $1",
-    "pre-commit": "bunx lint-staged --verbose && echo 'Linting passed!\n'"
+    "pre-commit": "bunx lint-staged --verbose && echo '\\033[36mPre-runs passed!\\033[m\n'"
   },
   "commitlint": {
     "extends": [
