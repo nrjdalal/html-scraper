@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "TYPE=dev bun --watch src/index.ts",
     "deploy:dev": "bun scripts/is-env.ts dev && bunx tsc && bun --env-file=.env.dev sst deploy --stage=dev",
-    "prepare": "bunx simple-git-hooks && echo"
+    "prepare": "bunx simple-git-hooks"
   },
   "dependencies": {
     "@aws-sdk/client-lambda": "^3.666.0",
@@ -26,7 +26,7 @@
   },
   "simple-git-hooks": {
     "commit-msg": "bunx commitlint --edit $1",
-    "pre-commit": "bunx lint-staged --verbose"
+    "pre-commit": "bunx lint-staged --verbose && echo 'Linting passed!\n'"
   },
   "commitlint": {
     "extends": [
