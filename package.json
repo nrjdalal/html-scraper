@@ -3,7 +3,8 @@
   "scripts": {
     "dev": "TYPE=dev bun --watch src/index.ts",
     "deploy:dev": "bun scripts/is-env.ts dev && bunx tsc && bun --env-file=.env.dev sst deploy --stage=dev",
-    "prepare": "bunx simple-git-hooks"
+    "prepare": "bunx simple-git-hooks",
+    "deno:dev": "TYPE=dev deno run --watch --allow-read --allow-net --allow-env src/index.ts"
   },
   "dependencies": {
     "@aws-sdk/client-lambda": "^3.666.0",
