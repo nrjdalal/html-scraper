@@ -80,6 +80,13 @@ app.get("/", async (req, res) => {
       },
     })
 
+    if (!response.statusCode.toString().startsWith("2")) {
+      return res.status(response.statusCode).json({
+        statusCode: response.statusCode,
+        body: response.body,
+      })
+    }
+
     return response.headers["content-type"]?.includes("application/json")
       ? res.json(
           JSON.parse(
