@@ -71,7 +71,7 @@ app.get("/", async (req, res) => {
       ? search
       : `https://google.com/search?q=${search}`
 
-    const html = await gotScraping({
+    const response = await gotScraping({
       url: searchUrl,
       headerGeneratorOptions: {
         browser: "chrome",
@@ -80,12 +80,21 @@ app.get("/", async (req, res) => {
       },
     })
 
-    return res
-      .status(200)
-      .send(
-        html.body +
-          `\n\nTime taken: ${(performance.now() - start).toFixed(2)}ms`,
-      )
+    return response.headers["content-type"]?.includes("application/json")
+      ? res.json(
+          JSON.parse(
+            JSON.stringify({
+              ...JSON.parse(response.body),
+              scrapeTime: `${(performance.now() - start).toFixed(2)}ms`,
+            }),
+          ),
+        )
+      : res.send(
+          response.body.replace(
+            /(<body[^>]*>)/i,
+            `$1<p style="z-index: 9999; position: absolute; bottom: 16px; left: 16px; color: black; background-color: white; padding: 4px;">Scrape Time: ${(performance.now() - start).toFixed(2)}ms</p>`,
+          ),
+        )
   } catch (error) {
     console.error(error)
     res.status(500).send("An error occurred!")
