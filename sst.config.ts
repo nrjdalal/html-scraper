@@ -45,7 +45,7 @@ export default $config({
 
     return {
       "ap-south-1-console": pulumi.interpolate`https://ap-south-1.console.aws.amazon.com/lambda/home?region=ap-south-1#/functions/${apSouth1.name}`,
-      "ap-south-1-url": pulumi.interpolate`${apSouth1.url}?key=${schema.API_KEY}&search=https://api.apify.com/v2/browser-info`,
+      "ap-south-1-url": pulumi.interpolate`${apSouth1.url}?key=${schema.API_KEY}&search=https://amazon.in`,
     }
   },
 })

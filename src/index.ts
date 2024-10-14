@@ -1,10 +1,9 @@
 import * as AWS from "@aws-sdk/client-lambda"
 import express from "express"
+import { gotScraping } from "got-scraping"
 import serverless from "serverless-http"
 
 const app = express()
-
-// TODO: integrate got-scraping to scrape today?
 
 app.use((req, res, next) => {
   if (process.env.TYPE === "dev") return next()
@@ -72,12 +71,20 @@ app.get("/", async (req, res) => {
       ? search
       : `https://google.com/search?q=${search}`
 
-    const html = await fetch(searchUrl).then((res) => res.text())
+    const html = await gotScraping({
+      url: searchUrl,
+      headerGeneratorOptions: {
+        browser: "chrome",
+        devices: ["desktop"],
+        operatingSystems: ["windows"],
+      },
+    })
 
     return res
       .status(200)
       .send(
-        html + `\n\nTime taken: ${(performance.now() - start).toFixed(2)}ms`,
+        html.body +
+          `\n\nTime taken: ${(performance.now() - start).toFixed(2)}ms`,
       )
   } catch (error) {
     console.error(error)
