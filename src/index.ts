@@ -21,22 +21,22 @@ app.get("/switch", async (req, res) => {
   const start = performance.now()
 
   const lambdaClient = new AWS.LambdaClient({
-    region: process.env.FUNCTION_REGION,
+    region: process.env.FUNCTION_REGION!,
     credentials: {
-      accessKeyId: process.env.ACCESS_KEY_ID || "",
-      secretAccessKey: process.env.SECRET_ACCESS_KEY || "",
+      accessKeyId: process.env.ACCESS_KEY_ID!,
+      secretAccessKey: process.env.SECRET_ACCESS_KEY!,
     },
   })
 
   const existingConfig = await lambdaClient.send(
     new AWS.GetFunctionConfigurationCommand({
-      FunctionName: process.env.FUNCTION_NAME,
+      FunctionName: process.env.FUNCTION_NAME!,
     }),
   )
 
   await lambdaClient.send(
     new AWS.UpdateFunctionConfigurationCommand({
-      FunctionName: process.env.FUNCTION_NAME,
+      FunctionName: process.env.FUNCTION_NAME!,
       Environment: {
         Variables: {
           RUN: `${Math.random()}`,
