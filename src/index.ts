@@ -5,7 +5,7 @@ import serverless from "serverless-http"
 
 const app = express()
 
-app.use((req, res, next) => {
+app.use((req, res, next): any => {
   if (process.env.TYPE === "dev") return next()
 
   if (!req.query.key || req.query.key !== process.env.API_KEY) {
@@ -15,7 +15,7 @@ app.use((req, res, next) => {
   return next()
 })
 
-app.get("/switch", async (req, res) => {
+app.get("/switch", async (req, res): Promise<any> => {
   if (process.env.TYPE === "dev") return res.send("Not available in dev mode!")
 
   const start = performance.now()
@@ -57,7 +57,7 @@ app.get("/switch", async (req, res) => {
   })
 })
 
-app.get("/", async (req, res) => {
+app.get("/", async (req, res): Promise<any> => {
   const start = performance.now()
 
   try {
