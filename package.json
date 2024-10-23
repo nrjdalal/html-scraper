@@ -7,7 +7,7 @@
     "deno:dev": "TYPE=dev deno run --watch --allow-read --allow-net --allow-env src/index.ts"
   },
   "dependencies": {
-    "@aws-sdk/client-lambda": "^3.675.0",
+    "@aws-sdk/client-lambda": "^3.677.0",
     "express": "^5.0.1",
     "got-scraping": "^4.0.6",
     "serverless-http": "^3.2.0"
@@ -17,13 +17,13 @@
     "@commitlint/config-conventional": "^19.5.0",
     "@ianvs/prettier-plugin-sort-imports": "^4.3.1",
     "@pulumi/pulumi": "^3.137.0",
-    "@types/bun": "^1.1.11",
+    "@types/bun": "^1.1.12",
     "@types/express": "5.0.0",
     "lint-staged": "^15.2.10",
     "nanoid": "^5.0.7",
     "prettier": "^3.3.3",
     "simple-git-hooks": "^2.11.1",
-    "sst": "^3.2.44",
+    "sst": "^3.2.47",
     "zod": "^3.23.8"
   },
   "simple-git-hooks": {
