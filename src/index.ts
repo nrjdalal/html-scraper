@@ -1,22 +1,22 @@
 import * as AWS from "@aws-sdk/client-lambda"
-import express from "express"
 import { gotScraping } from "got-scraping"
-import serverless from "serverless-http"
+import { Hono } from "hono"
+import { handle } from "hono/aws-lambda"
 
-const app = express()
+const app = new Hono()
 
-app.use((req, res, next): any => {
-  if (process.env.TYPE === "dev") return next()
+app.use(async (c, next) => {
+  if (process.env.TYPE === "dev") return await next()
 
-  if (!req.query.key || req.query.key !== process.env.API_KEY) {
-    return res.status(401).send("Unauthorized!")
+  if (!c.req.query("key") || c.req.query("key") !== process.env.API_KEY) {
+    return c.text("Unauthorized!", 401)
   }
 
-  return next()
+  return await next()
 })
 
-app.get("/switch", async (req, res): Promise<any> => {
-  if (process.env.TYPE === "dev") return res.send("Not available in dev mode!")
+app.get("/switch", async (c) => {
+  if (process.env.TYPE === "dev") return c.text("Not available in dev mode!")
 
   const start = performance.now()
 
@@ -51,44 +51,52 @@ app.get("/switch", async (req, res): Promise<any> => {
   const response = await fetch("https://api.apify.com/v2/browser-info")
   const data = await response.json()
 
-  res.json({
+  return c.json({
     ...(data as object),
     time: (performance.now() - start).toFixed(0),
   })
 })
 
-app.get("/", async (req, res): Promise<any> => {
+app.get("/", async (c) => {
   const start = performance.now()
 
   try {
-    const { search } = req.query as { search?: string }
+    const { search } = c.req.query() as { search?: string }
 
     if (!search) {
-      return res.status(400).send("Please provide a search query!")
+      return c.text("Please provide a search query!", 400)
     }
 
     const searchUrl = search.startsWith("http")
       ? search
       : `https://google.com/search?q=${search}`
 
-    const response = await gotScraping({
-      url: searchUrl,
-      headerGeneratorOptions: {
-        browser: "chrome",
-        devices: ["desktop"],
-        operatingSystems: ["windows"],
-      },
-    })
+    // const response = await gotScraping({
+    //   url: searchUrl,
+    //   headerGeneratorOptions: {
+    //     browser: "chrome",
+    //     devices: ["desktop"],
+    //     operatingSystems: ["windows"],
+    //   },
+    // })
+
+    let response = (await fetch(searchUrl)) as any
+
+    response = {
+      statusCode: response.status,
+      headers: Object.fromEntries(response.headers),
+      body: await response.text(),
+    }
 
     if (!response.statusCode.toString().startsWith("2")) {
-      return res.status(response.statusCode).json({
+      return c.json({
         statusCode: response.statusCode,
         body: response.body,
       })
     }
 
     return response.headers["content-type"]?.includes("application/json")
-      ? res.json(
+      ? c.json(
           JSON.parse(
             JSON.stringify({
               ...JSON.parse(response.body),
@@ -96,7 +104,7 @@ app.get("/", async (req, res): Promise<any> => {
             }),
           ),
         )
-      : res.send(
+      : c.html(
           response.body.replace(
             /(<body[^>]*>)/i,
             `$1<p style="z-index: 9999; position: absolute; bottom: 16px; left: 16px; color: black; background-color: white; padding: 4px;">Scrape Time: ${(performance.now() - start).toFixed(2)}ms</p>`,
@@ -104,15 +112,9 @@ app.get("/", async (req, res): Promise<any> => {
         )
   } catch (error) {
     console.error(error)
-    res.status(500).send("An error occurred!")
+    c.text("An error occurred!", 500)
   }
 })
 
-if (process.env.TYPE === "dev") {
-  const PORT = 5555
-  app.listen(PORT, () =>
-    console.log(`Server running on http://localhost:${PORT}`),
-  )
-}
-
-export const handler = serverless(app)
+export default app
+export const handler = handle(app)
