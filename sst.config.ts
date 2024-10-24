@@ -27,7 +27,7 @@ export default $config({
       "html-scraper",
       {
         handler: "dist/index.handler",
-        memory: "512 MB",
+        memory: "256 MB",
         runtime: "nodejs20.x",
         url: true,
         environment: {
