@@ -1,5 +1,5 @@
 import * as AWS from "@aws-sdk/client-lambda"
-import { gotScraping } from "got-scraping"
+// import { gotScraping } from "got-scraping"
 import { Hono } from "hono"
 import { handle } from "hono/aws-lambda"
 
@@ -117,4 +117,6 @@ app.get("/", async (c) => {
 })
 
 export default app
+
+// for aws-lambda
 export const handler = handle(app)
